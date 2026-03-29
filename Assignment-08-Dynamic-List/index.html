@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic List App | Assignment 8</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        function TaskApp() {
+            const [tasks, setTasks] = useState([]);
+            const [inputValue, setInputValue] = useState("");
+
+            // Add a new task
+            const addTask = () => {
+                if (inputValue.trim() !== "") {
+                    // We create a new array with the old tasks + the new one
+                    setTasks([...tasks, { id: Date.now(), text: inputValue }]);
+                    setInputValue(""); // Clear input
+                }
+            };
+
+            // Delete a task by ID
+            const deleteTask = (id) => {
+                const updatedTasks = tasks.filter(task => task.id !== id);
+                setTasks(updatedTasks);
+            };
+
+            return (
+                <div className="container">
+                    <div className="task-card">
+                        <h1>Task Manager</h1>
+                        
+                        <div className="input-box">
+                            <input 
+                                type="text" 
+                                value={inputValue} 
+                                onChange={(e) => setInputValue(e.target.value)}
+                                placeholder="What needs to be done?"
+                            />
+                            <button onClick={addTask}>Add</button>
+                        </div>
+
+                        <ul className="task-list">
+                            {tasks.length === 0 ? <p className="empty">No tasks yet!</p> : null}
+                            {tasks.map(task => (
+                                <li key={task.id}>
+                                    {task.text}
+                                    <button className="delete-btn" onClick={() => deleteTask(task.id)}>
+                                        Delete
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<TaskApp />);
+    </script>
+</body>
+</html>

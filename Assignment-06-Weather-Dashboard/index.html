@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard | Assignment 6</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="weather-card">
+        <h1>Weather Dashboard</h1>
+        <p>Get real-time weather for Bangalore</p>
+        
+        <button id="fetchBtn">Check Weather</button>
+
+        <div id="statusContainer">
+            <div id="loader" class="hidden">Fetching data...</div>
+            <div id="errorMsg" class="hidden error">Failed to fetch data. Please try again.</div>
+        </div>
+
+        <div id="weatherResult" class="hidden">
+            <div class="temp-display">
+                <span id="temperature">--</span>°C
+            </div>
+            <p id="description">Clear Skies</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

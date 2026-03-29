@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folder Architect | Assignment 11</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        function FolderApp() {
+            const [status, setStatus] = useState("idle"); // idle, loading, ready
+            const [message, setMessage] = useState("Click the folder to retrieve data");
+
+            const handleRetrieve = () => {
+                setStatus("loading");
+                setMessage("Retrieving data... please wait.");
+
+                // Simulate a 3-second delay
+                setTimeout(() => {
+                    setStatus("ready");
+                    setMessage("Data retrieved! You can now Copy or Cut.");
+                }, 3000);
+            };
+
+            const handleAction = (action) => {
+                if (status !== "ready") {
+                    alert("Wait a few seconds and try to " + action + " again!");
+                    return;
+                }
+                alert(action + " successful!");
+                // Reset after action
+                setStatus("idle");
+                setMessage("Action complete. Click to retrieve again.");
+            };
+
+            return (
+                <div className="app-wrapper">
+                    <div className="folder-card">
+                        <div className={`folder-icon ${status}`} onClick={handleRetrieve}>
+                            📁
+                        </div>
+                        <p className="status-text">{message}</p>
+                        
+                        <div className="controls">
+                            <button 
+                                className={status === "ready" ? "active" : "disabled"} 
+                                onClick={() => handleAction("Copy")}
+                            >
+                                Copy
+                            </button>
+                            <button 
+                                className={status === "ready" ? "active" : "disabled"} 
+                                onClick={() => handleAction("Cut")}
+                            >
+                                Cut
+                            </button>
+                        </div>
+                        
+                        {status === "loading" && <div className="progress-bar"><div className="fill"></div></div>}
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<FolderApp />);
+    </script>
+</body>
+</html>

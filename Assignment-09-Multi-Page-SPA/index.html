@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Page SPA | Assignment 9</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.production.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { BrowserRouter, Routes, Route, Link } = ReactRouterDOM;
+        const { useState } = React;
+
+        // --- Component 1: Home Page ---
+        const Home = () => (
+            <div className="page">
+                <h1>Welcome to my Internship Portal</h1>
+                <p>Select a tool from the navigation menu above to get started.</p>
+            </div>
+        );
+
+        // --- Component 2: Mood Tracker (From Assignment 7) ---
+        const MoodTracker = () => {
+            const [mood, setMood] = useState("Neutral");
+            return (
+                <div className="page card">
+                    <h2>Mood Tracker</h2>
+                    <p>Current Mood: <strong>{mood}</strong></p>
+                    <button onClick={() => setMood("Happy 😃")}>Happy</button>
+                    <button onClick={() => setMood("Productive 🚀")}>Productive</button>
+                </div>
+            );
+        };
+
+        // --- Component 3: Task Manager (From Assignment 8) ---
+        const TaskManager = () => {
+            const [tasks, setTasks] = useState(["Complete Assignment 9"]);
+            return (
+                <div className="page card">
+                    <h2>Task Manager</h2>
+                    <ul>{tasks.map((t, i) => <li key={i}>{t}</li>)}</ul>
+                </div>
+            );
+        };
+
+        // --- Main App with Routing ---
+        function App() {
+            return (
+                <BrowserRouter>
+                    <nav className="navbar">
+                        <Link to="/">Home</Link>
+                        <Link to="/mood">Mood Tracker</Link>
+                        <Link to="/tasks">Task Manager</Link>
+                    </nav>
+
+                    <div className="content">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/mood" element={<MoodTracker />} />
+                            <Route path="/tasks" element={<TaskManager />} />
+                        </Routes>
+                    </div>
+                </BrowserRouter>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

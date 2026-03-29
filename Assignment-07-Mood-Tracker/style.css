@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.app-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.5s ease; /* Smooth state transition */
+}
+
+.mood-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 400px;
+}
+
+h1 { margin-bottom: 10px; color: #333; }
+
+.current-mood {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #f8f9fa;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #e9ecef;
+    transform: scale(1.05);
+}
+
+.reset-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: #333;
+    color: white;
+}
+
+.reset-btn:hover {
+    background: #000;
+}

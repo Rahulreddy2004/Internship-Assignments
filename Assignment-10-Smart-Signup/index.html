@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Signup Form | Assignment 10</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function SignupForm() {
+            const [formData, setFormData] = useState({ email: '', password: '' });
+            const [errors, setErrors] = useState({ email: '', password: '' });
+            const [strength, setStrength] = useState('');
+
+            // Real-time Password Strength Checker
+            useEffect(() => {
+                const pass = formData.password;
+                if (pass.length === 0) setStrength('');
+                else if (pass.length < 6) setStrength('Weak 🔴');
+                else if (/[A-Z]/.test(pass) && /[0-9]/.test(pass) && /[^A-Za-z0-9]/.test(pass)) {
+                    setStrength('Strong 💪');
+                } else {
+                    setStrength('Medium 🟠');
+                }
+            }, [formData.password]);
+
+            const handleChange = (e) => {
+                setFormData({ ...formData, [e.target.name]: e.target.value });
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+                
+                if (!emailValid) {
+                    setErrors(prev => ({ ...prev, email: 'Invalid email format' }));
+                } else {
+                    alert("Signup Successful! Check the console for data.");
+                    console.log("User Data:", formData);
+                }
+            };
+
+            return (
+                <div className="wrapper">
+                    <form className="signup-card" onSubmit={handleSubmit}>
+                        <h2>Create Account</h2>
+                        
+                        <div className="input-group">
+                            <label>Email</label>
+                            <input 
+                                name="email" 
+                                type="email" 
+                                onChange={handleChange} 
+                                placeholder="name@company.com"
+                            />
+                            {errors.email && <span className="error">{errors.email}</span>}
+                        </div>
+
+                        <div className="input-group">
+                            <label>Password</label>
+                            <input 
+                                name="password" 
+                                type="password" 
+                                onChange={handleChange} 
+                                placeholder="••••••••"
+                            />
+                            <div className="strength-meter">Strength: {strength}</div>
+                        </div>
+
+                        <button type="submit">Sign Up</button>
+                    </form>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<SignupForm />);
+    </script>
+</body>
+</html>

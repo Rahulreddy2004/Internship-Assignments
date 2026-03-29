@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Listing UI | Assignment 12</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const PRODUCTS = [
+            { id: 1, name: "Wireless Headphones", price: 99, category: "Electronics", img: "https://picsum.photos/id/26/200" },
+            { id: 2, name: "Smart Watch", price: 199, category: "Electronics", img: "https://picsum.photos/id/1/200" },
+            { id: 3, name: "Cotton T-Shirt", price: 25, category: "Fashion", img: "https://picsum.photos/id/22/200" },
+            { id: 4, name: "Leather Wallet", price: 45, category: "Fashion", img: "https://picsum.photos/id/33/200" },
+            { id: 5, name: "Gaming Mouse", price: 60, category: "Electronics", img: "https://picsum.photos/id/2/200" },
+            { id: 6, name: "Running Shoes", price: 120, category: "Fashion", img: "https://picsum.photos/id/21/200" },
+        ];
+
+        function StoreApp() {
+            const [filter, setFilter] = useState("All");
+
+            const filteredProducts = filter === "All" 
+                ? PRODUCTS 
+                : PRODUCTS.filter(p => p.category === filter);
+
+            return (
+                <div className="store-container">
+                    <header>
+                        <h1>Mini-Store</h1>
+                        <div className="filter-bar">
+                            {["All", "Electronics", "Fashion"].map(cat => (
+                                <button 
+                                    key={cat} 
+                                    className={filter === cat ? "active" : ""}
+                                    onClick={() => setFilter(cat)}
+                                >
+                                    {cat}
+                                </button>
+                            ))}
+                        </div>
+                    </header>
+
+                    <main className="product-grid">
+                        {filteredProducts.map(product => (
+                            <div key={product.id} className="product-card">
+                                <img src={product.img} alt={product.name} />
+                                <h3>{product.name}</h3>
+                                <p className="category">{product.category}</p>
+                                <p className="price">${product.price}</p>
+                                <button className="add-btn">Add to Cart</button>
+                            </div>
+                        ))}
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<StoreApp />);
+    </script>
+</body>
+</html>
